@@ -63,8 +63,7 @@ public class ProcessStateCollector {
      * @return "Segmentation" state of the page
      */
     public boolean segmentationState(String pageId) {
-        if (!new File(projConf.OCR_DIR + pageId + projConf.CONF_EXT).exists()
-                || !new File(projConf.OCR_DIR + pageId + projConf.IMG_EXT).exists()) {
+        if (!new File(projConf.OCR_DIR + pageId + projConf.CONF_EXT).exists()) {
             return false;
         }
         return true;
