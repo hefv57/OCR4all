@@ -126,7 +126,7 @@ public final class ProjectConfiguration {
     /**
      * Absolute path to original page images (is made absolute in Constructor)
      */
-    public String ORIG_IMG_DIR = "Original" + File.separator;
+    public String ORIG_IMG_DIR = "input" + File.separator;
     /**
      * Absolute path to original page images (is made absolute in Constructor)
      */
