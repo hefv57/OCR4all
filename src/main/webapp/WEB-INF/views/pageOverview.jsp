@@ -66,11 +66,37 @@
                     <%--</c:otherwise>--%>
                 <%--</c:choose>--%>
             });
+            function prevFunction() {
+                            var pageidcoerce = (+window.location.search.substring(1).match(/\d+/g)) - 1;
+                            var pageid = ("0000" + pageidcoerce).slice(-4);
+                            if (pageid !== "0000") {
+                                var newLocation = window.location.href.split("?")[0] + "?pageId=" + pageid;
+                                window.location.href = newLocation;
+                            }
+                            else {}
+                        };
+                        function nextFunction() {
+                            var pageidcoerce = (+window.location.search.substring(1).match(/\d+/g)) + 1;
+                            var pageid = ("0000" + pageidcoerce).slice(-4);
+                            var newLocation = window.location.href.split("?")[0] + "?pageId=" + pageid;
+                            window.location.href = newLocation;
+                        };
+
         </script>
     </t:head>
     <t:body heading="Page Overview">
         <input id="pageId" name="pageId" type="hidden" value="${param.pageId}" />
         <div class="container">
+         <div class="section">
+                        <div class="row">
+                            <div class="col s6 prev-area" onclick="prevFunction()">
+                                <button class="pn-button"><i class="material-icons">chevron_left</i> previous</button>
+                            </div>
+                            <div class="col s6 next-area" onclick="nextFunction()">
+                                <button class="pn-button">next <i class="material-icons">chevron_right</i></button>
+                            </div>
+                        </div>
+            </div>
             <div class="section">
                 <table class="striped centered">
                     <thead>
