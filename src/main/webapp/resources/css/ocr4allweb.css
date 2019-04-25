@@ -258,13 +258,16 @@ button[data-id="msRecModelAddOption"] {
 .pn-button  {
   border: none;
   background-color: transparent;
-  font-size: 1rem;
+  font-size: 1rem !important;
 }
 .prev-area{
   text-align: left;
 }
 .next-area{
   text-align: right;
+}
+.input-field .prefix.right{
+  right: 0;
 }
 @media only screen and (max-width : 1700px) {
   button[data-id="msRecModelAddOption"] {

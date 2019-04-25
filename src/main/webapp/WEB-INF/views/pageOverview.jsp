@@ -52,8 +52,34 @@
 
                 loadImage($('.collapsible[data-type="page"]').find('li').eq(0));
                 $('.collapsible[data-type="page"]').collapsible('open', 0);
-                // Initialize Select
-                $('select').formSelect();
+
+
+
+                    $('input.autocomplete').autocomplete({
+
+                      data: {
+
+                        "jQuery": null,
+
+                        "JavaScript": 'https://www.jquery-az.com/wp-content/uploads/2017/12/favicon-32x32.png',
+
+                        "CSS": null,
+
+                        "HTML": null,
+
+                        "Bootstrap": 'https://www.jquery-az.com/wp-content/uploads/2017/12/favicon-32x32.png',
+
+                        "Java": null,
+
+                        "Python": null,
+
+                      },
+
+                    });
+
+
+
+
 
                 <%--<c:choose>--%>
                     <%--&lt;%&ndash; Open Gray image if it is set in session &ndash;%&gt;--%>
@@ -84,6 +110,11 @@
                             window.location.href = newLocation;
                         };
 
+
+            function openAuto() {
+                var instance = M.Autocomplete.getInstance(document.getElementById("autocomplete_pages"));
+                instance.open();
+            };
         </script>
     </t:head>
     <t:body heading="Page Overview">
@@ -94,15 +125,13 @@
                             <div class="col s4 prev-area" onclick="prevFunction()">
                                 <button class="pn-button"><i class="material-icons">chevron_left</i> previous</button>
                             </div>
-                            <div class="input field col s4 dropdown-area">
-                                <select>
-                                    <option value="" disabled selected>Go to Page</option>
-                                    <option value="1">Option 1</option>
-                                    <option value="2">Option 2</option>
-                                    <option value="3">Option 3</option>
-                                </select>
-                                <label>Materialize Select</label>
+
+                            <div class="input-field col s4">
+                               <i class="material-icons prefix right" onclick="openAuto">details</i>
+                                <input type="text" id="autocomplete_pages" class="autocomplete">
+                                <label for="autocomplete pages">Go to Page</label>
                             </div>
+
                             <div class="col s4 next-area" onclick="nextFunction()">
                                 <button class="pn-button">next <i class="material-icons">chevron_right</i></button>
                             </div>
