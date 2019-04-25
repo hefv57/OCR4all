@@ -258,6 +258,7 @@ button[data-id="msRecModelAddOption"] {
 .pn-button  {
   border: none;
   background-color: transparent;
+  font-size: 1rem;
 }
 .prev-area{
   text-align: left;

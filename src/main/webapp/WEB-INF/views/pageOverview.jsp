@@ -52,6 +52,8 @@
 
                 loadImage($('.collapsible[data-type="page"]').find('li').eq(0));
                 $('.collapsible[data-type="page"]').collapsible('open', 0);
+                // Initialize Select
+                $('select').formSelect();
 
                 <%--<c:choose>--%>
                     <%--&lt;%&ndash; Open Gray image if it is set in session &ndash;%&gt;--%>
@@ -89,10 +91,19 @@
         <div class="container">
          <div class="section">
                         <div class="row">
-                            <div class="col s6 prev-area" onclick="prevFunction()">
+                            <div class="col s4 prev-area" onclick="prevFunction()">
                                 <button class="pn-button"><i class="material-icons">chevron_left</i> previous</button>
                             </div>
-                            <div class="col s6 next-area" onclick="nextFunction()">
+                            <div class="input field col s4 dropdown-area">
+                                <select>
+                                    <option value="" disabled selected>Go to Page</option>
+                                    <option value="1">Option 1</option>
+                                    <option value="2">Option 2</option>
+                                    <option value="3">Option 3</option>
+                                </select>
+                                <label>Materialize Select</label>
+                            </div>
+                            <div class="col s4 next-area" onclick="nextFunction()">
                                 <button class="pn-button">next <i class="material-icons">chevron_right</i></button>
                             </div>
                         </div>
