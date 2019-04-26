@@ -55,28 +55,26 @@
 
 
 
-                    $('input.autocomplete').autocomplete({
-
+                $('input.autocomplete').autocomplete({
                       data: {
 
-                        "jQuery": null,
+                                                                         "jQuery": null,
 
-                        "JavaScript": 'https://www.jquery-az.com/wp-content/uploads/2017/12/favicon-32x32.png',
+                                                                         "JavaScript": 'https://www.jquery-az.com/wp-content/uploads/2017/12/favicon-32x32.png',
 
-                        "CSS": null,
+                                                                         "CSS": null,
 
-                        "HTML": null,
+                                                                         "HTML": null,
 
-                        "Bootstrap": 'https://www.jquery-az.com/wp-content/uploads/2017/12/favicon-32x32.png',
+                                                                         "Bootstrap": 'https://www.jquery-az.com/wp-content/uploads/2017/12/favicon-32x32.png',
 
-                        "Java": null,
+                                                                         "Java": null,
 
-                        "Python": null,
+                                                                         "Python": null,
 
-                      },
+                                                                       },
 
                     });
-
 
 
 
@@ -94,6 +92,7 @@
                     <%--</c:otherwise>--%>
                 <%--</c:choose>--%>
             });
+
             function prevFunction() {
                             var pageidcoerce = (+window.location.search.substring(1).match(/\d+/g)) - 1;
                             var pageid = ("0000" + pageidcoerce).slice(-4);
@@ -103,18 +102,31 @@
                             }
                             else {}
                         };
-                        function nextFunction() {
-                            var pageidcoerce = (+window.location.search.substring(1).match(/\d+/g)) + 1;
-                            var pageid = ("0000" + pageidcoerce).slice(-4);
-                            var newLocation = window.location.href.split("?")[0] + "?pageId=" + pageid;
-                            window.location.href = newLocation;
-                        };
+            function nextFunction() {
+                var searchParams = new URLSearchParams(window.location.search);
+                var pageidcoerce = (+searchParams.get("pageId")) + 1;
+                var pageid = ("0000" + pageidcoerce).slice(-4);
+                if (!searchParams.has('len')){
+                    picListL = $.get("ajax/overview/list", function(data){
+                                    picListL = data;
+                                    return picListL;
+                });
+                var length = Object.keys(picListL).length;
+                var newLocation = window.location.href.split("?")[0] + "?len=" + length +"&pageId=" + pageid;
+                } else {
+                    var newLocation = window.location.href.split("&")[0] + "&pageId=" + pageid;
+                };
+                if (pageidcoerce == (length+1) || pageidcoerce == (+searchParams.get("len")+1)){
 
-
-            function openAuto() {
-                var instance = M.Autocomplete.getInstance(document.getElementById("autocomplete_pages"));
-                instance.open();
+                } else {
+                    window.location.href = newLocation;
+                };
             };
+
+
+
+
+
         </script>
     </t:head>
     <t:body heading="Page Overview">
