@@ -94,33 +94,35 @@
             });
 
             function prevFunction() {
-                            var pageidcoerce = (+window.location.search.substring(1).match(/\d+/g)) - 1;
-                            var pageid = ("0000" + pageidcoerce).slice(-4);
-                            if (pageid !== "0000") {
-                                var newLocation = window.location.href.split("?")[0] + "?pageId=" + pageid;
-                                window.location.href = newLocation;
-                            }
-                            else {}
-                        };
+                var searchParams = new URLSearchParams(window.location.search);
+                var pageidcoerce = (+searchParams.get("pageId")) - 1;
+                var pageid = ("0000" + pageidcoerce).slice(-4);
+                if (pageid !== "0000") {
+                    if (searchParams.get("len")==null){
+                        var newLocation = window.location.href.split("?")[0] + "?pageId=" + pageid;
+                    } else {
+                        var newLocation = window.location.href.split("&")[0] + "&pageId=" + pageid;
+                    }
+                    window.location.href = newLocation;
+                }
+            };
+
             function nextFunction() {
                 var searchParams = new URLSearchParams(window.location.search);
                 var pageidcoerce = (+searchParams.get("pageId")) + 1;
                 var pageid = ("0000" + pageidcoerce).slice(-4);
                 if (!searchParams.has('len')){
                     picListL = $.get("ajax/overview/list", function(data){
-                                    picListL = data;
-                                    return picListL;
-                });
-                var length = Object.keys(picListL).length;
-                var newLocation = window.location.href.split("?")[0] + "?len=" + length +"&pageId=" + pageid;
+                    return data;
+                    });
+                    var length = Object.keys(picListL).length;
+                    var newLocation = window.location.href.split("?")[0] + "?len=" + length +"&pageId=" + pageid;
                 } else {
                     var newLocation = window.location.href.split("&")[0] + "&pageId=" + pageid;
-                };
-                if (pageidcoerce == (length+1) || pageidcoerce == (+searchParams.get("len")+1)){
-
-                } else {
+                }
+                if (pageidcoerce !== (length+1) && pageidcoerce !== (+searchParams.get("len")+1)){
                     window.location.href = newLocation;
-                };
+                }
             };
 
 
