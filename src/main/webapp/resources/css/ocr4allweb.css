@@ -269,6 +269,16 @@ button[data-id="msRecModelAddOption"] {
 .input-field .prefix.right{
   right: 0;
 }
+.dropdown-button .right{
+  right: 0;
+  height: 100%;
+}
+.input-field > ul{
+  width: 100%;
+}
+.autocomplete-content {
+  position: absolute;
+}
 @media only screen and (max-width : 1700px) {
   button[data-id="msRecModelAddOption"] {
     margin-left: 0px;
@@ -276,3 +286,4 @@ button[data-id="msRecModelAddOption"] {
     display:block;
   }
 }
+

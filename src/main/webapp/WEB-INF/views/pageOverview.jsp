@@ -55,28 +55,50 @@
 
 
 
-                $('input.autocomplete').autocomplete({
-                      data: {
-
-                                                                         "jQuery": null,
-
-                                                                         "JavaScript": 'https://www.jquery-az.com/wp-content/uploads/2017/12/favicon-32x32.png',
-
-                                                                         "CSS": null,
-
-                                                                         "HTML": null,
-
-                                                                         "Bootstrap": 'https://www.jquery-az.com/wp-content/uploads/2017/12/favicon-32x32.png',
-
-                                                                         "Java": null,
-
-                                                                         "Python": null,
-
-                                                                       },
-
-                    });
 
 
+
+
+                    var searchParams = new URLSearchParams(window.location.search);
+                    if (!searchParams.has('len')) {
+                        var picListL;
+                        $.get("ajax/overview/list")
+                            .done( function( data ){
+                                picListL = data;
+                                console.log(picListL);
+                                var data_autoc = {};
+                                var i;
+                                //picListL.forEach((e)=>{
+
+                                //});
+                                for (i = 0; i < picListL.length; i++) {
+                                    var id = picListL[i].pageId;
+                                    var newLocation = window.location.href.split("?")[0] + "?pageId=" + id;
+                                    var li = document.createElement("li");
+                                    var a = document.createElement("a");
+                                    a.setAttribute("href", newLocation);
+                                    li.appendChild(a);
+                                    a.textContent = "Page" + " " + id;
+                                    document.getElementById("pages01").appendChild(li);
+                                    data_autoc["Page" + " " + id] = newLocation;
+                                }
+                                console.log(data_autoc);
+                                $('input.autocomplete').autocomplete({
+                                    data: data_autoc
+                                });
+                                $('.dropdown-button').dropdown({
+                                        inDuration: 300,
+                                        outDuration: 225,
+                                        constrainWidth: false, // Does not change width of dropdown to that of the activator
+                                        hover: false, // Activate on hover
+                                        gutter: 0, // Spacing from edge
+                                        belowOrigin: true, // Displays dropdown below the button
+                                        alignment: 'right', // Displays dropdown with edge aligned to the left of button
+                                        stopPropagation: false // Stops event propagation
+                                    }
+                                );
+                        });
+                    }
 
 
                 <%--<c:choose>--%>
@@ -141,10 +163,14 @@
                             </div>
 
                             <div class="input-field col s4">
-                               <i class="material-icons prefix right" onclick="openAuto">details</i>
+                                <a class="dropdown-button right" href="#" data-activates="pages01"><i class="material-icons prefix right" >details</i></a>
                                 <input type="text" id="autocomplete_pages" class="autocomplete">
                                 <label for="autocomplete pages">Go to Page</label>
                             </div>
+                            <ul id="pages01" class="dropdown-content">
+                            <ul id="pages01" class="dropdown-content">
+                                <!-- Dynamical created by JS -->
+                            </ul>
 
                             <div class="col s4 next-area" onclick="nextFunction()">
                                 <button class="pn-button">next <i class="material-icons">chevron_right</i></button>
