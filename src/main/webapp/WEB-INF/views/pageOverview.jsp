@@ -54,51 +54,62 @@
                 $('.collapsible[data-type="page"]').collapsible('open', 0);
 
 
-
-
-
-
-
-                    var searchParams = new URLSearchParams(window.location.search);
-                    if (!searchParams.has('len')) {
-                        var picListL;
-                        $.get("ajax/overview/list")
-                            .done( function( data ){
-                                picListL = data;
-                                console.log(picListL);
-                                var data_autoc = {};
-                                var i;
-                                //picListL.forEach((e)=>{
-
-                                //});
-                                for (i = 0; i < picListL.length; i++) {
-                                    var id = picListL[i].pageId;
-                                    var newLocation = window.location.href.split("?")[0] + "?pageId=" + id;
-                                    var li = document.createElement("li");
-                                    var a = document.createElement("a");
-                                    a.setAttribute("href", newLocation);
-                                    li.appendChild(a);
-                                    a.textContent = "Page" + " " + id;
-                                    document.getElementById("pages01").appendChild(li);
-                                    data_autoc["Page" + " " + id] = newLocation;
-                                }
-                                console.log(data_autoc);
-                                $('input.autocomplete').autocomplete({
-                                    data: data_autoc
-                                });
-                                $('.dropdown-button').dropdown({
-                                        inDuration: 300,
-                                        outDuration: 225,
-                                        constrainWidth: false, // Does not change width of dropdown to that of the activator
-                                        hover: false, // Activate on hover
-                                        gutter: 0, // Spacing from edge
-                                        belowOrigin: true, // Displays dropdown below the button
-                                        alignment: 'right', // Displays dropdown with edge aligned to the left of button
-                                        stopPropagation: false // Stops event propagation
-                                    }
-                                );
+                //Initialize dropdown and autocomplete menus
+                var searchParams = new URLSearchParams(window.location.search);
+                var picListL;
+                //Load progress from current project for pageIDs and length
+                $.get("ajax/overview/list")
+                    .done( ( data ) => {
+                        picListL = data;
+                        console.log(picListL);
+                        var data_autoc = {};
+                        var i;
+                        for (i = 0; i < picListL.length; i++) {
+                            var id = picListL[i].pageId;
+                            var newLocation = window.location.href.split("?")[0] + "?pageId=" + id;
+                            var li = document.createElement("li");
+                            var a = document.createElement("a");
+                            a.setAttribute("href", newLocation);
+                            li.appendChild(a);
+                            a.textContent = "Page" + " " + id;
+                            document.getElementById("pages01").appendChild(li);
+                            data_autoc["Page" + " " + id] = newLocation;
+                        }
+                        $('input.autocomplete').autocomplete({
+                            data: data_autoc
                         });
+                        $('.dropdown-button').dropdown({
+                                inDuration: 300,
+                                outDuration: 225,
+                                constrainWidth: false, // Does not change width of dropdown to that of the activator
+                                hover: false, // Activate on hover
+                                gutter: 0, // Spacing from edge
+                                belowOrigin: true, // Displays dropdown below the button
+                                alignment: 'right', // Displays dropdown with edge aligned to the left of button
+                                stopPropagation: false // Stops event propagation
+                            }
+                        );
+                    });
+
+                $(".prev-page").click(() => {
+                    var searchParams = new URLSearchParams(window.location.search);
+                    var pageidcoerce = (+searchParams.get("pageId")) - 1;
+                    var pageid = ("0000" + pageidcoerce).slice(-4);
+                    if (pageid !== "0000") {
+                        var newLocation = window.location.href.split("?")[0] + "?len=" + picListL.length + "&pageId=" + pageid;
+                        window.location.href = newLocation;
                     }
+                });
+
+                $(".next-page").click(() => {
+                    var searchParams = new URLSearchParams(window.location.search);
+                    var pageidcoerce = (+searchParams.get("pageId")) + 1;
+                    var pageid = ("0000" + pageidcoerce).slice(-4);
+                    var newLocation = window.location.href.split("?")[0] + "?len=" + picListL.length + "&pageId=" + pageid;
+                    if (pageidcoerce !== (+searchParams.get("len")+1)){
+                        window.location.href = newLocation;
+                    }
+                });
 
 
                 <%--<c:choose>--%>
@@ -115,37 +126,6 @@
                 <%--</c:choose>--%>
             });
 
-            function prevFunction() {
-                var searchParams = new URLSearchParams(window.location.search);
-                var pageidcoerce = (+searchParams.get("pageId")) - 1;
-                var pageid = ("0000" + pageidcoerce).slice(-4);
-                if (pageid !== "0000") {
-                    if (searchParams.get("len")==null){
-                        var newLocation = window.location.href.split("?")[0] + "?pageId=" + pageid;
-                    } else {
-                        var newLocation = window.location.href.split("&")[0] + "&pageId=" + pageid;
-                    }
-                    window.location.href = newLocation;
-                }
-            };
-
-            function nextFunction() {
-                var searchParams = new URLSearchParams(window.location.search);
-                var pageidcoerce = (+searchParams.get("pageId")) + 1;
-                var pageid = ("0000" + pageidcoerce).slice(-4);
-                if (!searchParams.has('len')){
-                    picListL = $.get("ajax/overview/list", function(data){
-                    return data;
-                    });
-                    var length = Object.keys(picListL).length;
-                    var newLocation = window.location.href.split("?")[0] + "?len=" + length +"&pageId=" + pageid;
-                } else {
-                    var newLocation = window.location.href.split("&")[0] + "&pageId=" + pageid;
-                }
-                if (pageidcoerce !== (length+1) && pageidcoerce !== (+searchParams.get("len")+1)){
-                    window.location.href = newLocation;
-                }
-            };
 
 
 
@@ -156,27 +136,26 @@
     <t:body heading="Page Overview">
         <input id="pageId" name="pageId" type="hidden" value="${param.pageId}" />
         <div class="container">
-         <div class="section">
+
+            <div class="section">
                         <div class="row">
-                            <div class="col s4 prev-area" onclick="prevFunction()">
+                            <div class="prev-page col s4 prev-area">
                                 <button class="pn-button"><i class="material-icons">chevron_left</i> previous</button>
                             </div>
-
                             <div class="input-field col s4">
                                 <a class="dropdown-button right" href="#" data-activates="pages01"><i class="material-icons prefix right" >details</i></a>
                                 <input type="text" id="autocomplete_pages" class="autocomplete">
                                 <label for="autocomplete pages">Go to Page</label>
+                                <ul id="pages01" class="dropdown-content">
+                                    <!-- Dynamical created by JS -->
+                                </ul>
                             </div>
-                            <ul id="pages01" class="dropdown-content">
-                            <ul id="pages01" class="dropdown-content">
-                                <!-- Dynamical created by JS -->
-                            </ul>
-
-                            <div class="col s4 next-area" onclick="nextFunction()">
+                            <div class="next-page col s4 next-area">
                                 <button class="pn-button">next <i class="material-icons">chevron_right</i></button>
                             </div>
                         </div>
             </div>
+
             <div class="section">
                 <table class="striped centered">
                     <thead>
