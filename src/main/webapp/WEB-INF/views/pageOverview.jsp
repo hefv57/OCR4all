@@ -61,22 +61,30 @@
                 $.get("ajax/overview/list")
                     .done( ( data ) => {
                         picListL = data;
-                        console.log(picListL);
                         var data_autoc = {};
-                        var i;
+                        let i;
                         for (i = 0; i < picListL.length; i++) {
-                            var id = picListL[i].pageId;
-                            var newLocation = window.location.href.split("?")[0] + "?pageId=" + id;
-                            var li = document.createElement("li");
-                            var a = document.createElement("a");
+                            let id = picListL[i].pageId;
+                            let newLocation = window.location.href.split("?")[0] + "?pageId=" + id;
+                            let li = document.createElement("li");
+                            let a = document.createElement("a");
                             a.setAttribute("href", newLocation);
                             li.appendChild(a);
                             a.textContent = "Page" + " " + id;
                             document.getElementById("pages01").appendChild(li);
-                            data_autoc["Page" + " " + id] = newLocation;
+                            data_autoc["Page" + " " + id] = null;
                         }
                         $('input.autocomplete').autocomplete({
-                            data: data_autoc
+                            data: data_autoc,
+                            limit: 20,
+                            onAutocomplete: function (val) {
+                                const regexPageId = /pageId=[0-9]+/;
+                                const regexNonDigit = /\D+/g;
+                                const newId = "pageId=" + val.replace(regexNonDigit, "")
+                                let newLocation = window.location.href.replace(
+                                    regexPageId , newId);
+                                window.location.href = newLocation;
+                            }
                         });
                         $('.dropdown-button').dropdown({
                                 inDuration: 300,
@@ -85,7 +93,7 @@
                                 hover: false, // Activate on hover
                                 gutter: 0, // Spacing from edge
                                 belowOrigin: true, // Displays dropdown below the button
-                                alignment: 'right', // Displays dropdown with edge aligned to the left of button
+                                alignment: 'right', // Displays dropdown with edge aligned to the right of button
                                 stopPropagation: false // Stops event propagation
                             }
                         );
@@ -126,11 +134,6 @@
                 <%--</c:choose>--%>
             });
 
-
-
-
-
-
         </script>
     </t:head>
     <t:body heading="Page Overview">
@@ -140,18 +143,18 @@
             <div class="section">
                         <div class="row">
                             <div class="prev-page col s4 prev-area">
-                                <button class="pn-button"><i class="material-icons">chevron_left</i> previous</button>
+                                <button class="pn-button"><i class="material-icons pnicon">chevron_left</i> previous</button>
                             </div>
                             <div class="input-field col s4">
                                 <a class="dropdown-button right" href="#" data-activates="pages01"><i class="material-icons prefix right" >details</i></a>
                                 <input type="text" id="autocomplete_pages" class="autocomplete">
-                                <label for="autocomplete pages">Go to Page</label>
+                                <label for="autocomplete_pages">Go to Page</label>
                                 <ul id="pages01" class="dropdown-content">
                                     <!-- Dynamical created by JS -->
                                 </ul>
                             </div>
                             <div class="next-page col s4 next-area">
-                                <button class="pn-button">next <i class="material-icons">chevron_right</i></button>
+                                <button class="pn-button">next <i class="material-icons pnicon">chevron_right</i></button>
                             </div>
                         </div>
             </div>

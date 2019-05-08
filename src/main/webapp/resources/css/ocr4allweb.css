@@ -226,6 +226,7 @@ overflow-x: hidden;
   background-color: #5c6bc0;
 }
 
+
 /* Multi-Select adjustments */
 .ms-container {
   min-width: 370px;
@@ -258,7 +259,11 @@ button[data-id="msRecModelAddOption"] {
 .pn-button  {
   border: none;
   background-color: transparent;
-  font-size: 1rem !important;
+  display: inline-flex;
+  vertical-align: middle;
+  line-height: 3vh;
+  color: #8c9eff;
+  padding-top: 30px;
 }
 .prev-area{
   text-align: left;
@@ -271,13 +276,19 @@ button[data-id="msRecModelAddOption"] {
 }
 .dropdown-button .right{
   right: 0;
-  height: 100%;
+  font-size: 1.5rem;
+  padding-top: 1.7vh;
 }
+
 .input-field > ul{
   width: 100%;
 }
 .autocomplete-content {
   position: absolute;
+}
+.pnicon{
+  font-size: 1.2rem;
+  line-height: 3vh;
 }
 @media only screen and (max-width : 1700px) {
   button[data-id="msRecModelAddOption"] {
