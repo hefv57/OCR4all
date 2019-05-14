@@ -63,6 +63,7 @@
                         picListL = data;
                         var data_autoc = {};
                         let i;
+                        let liList = [];
                         for (i = 0; i < picListL.length; i++) {
                             let id = picListL[i].pageId;
                             let newLocation = window.location.href.split("?")[0] + "?pageId=" + id;
@@ -71,9 +72,15 @@
                             a.setAttribute("href", newLocation);
                             li.appendChild(a);
                             a.textContent = "Page" + " " + id;
-                            document.getElementById("pages01").appendChild(li);
+                            liList.push(li);
                             data_autoc["Page" + " " + id] = null;
                         }
+                        liList.sort(function (a, b) {
+                            return a.children[0].textContent.localeCompare(b.children[0].textContent);
+                        });
+                        liList.forEach((element)=>{
+                            $("#pages01").append(element);
+                        });
                         $('input.autocomplete').autocomplete({
                             data: data_autoc,
                             limit: 20,
