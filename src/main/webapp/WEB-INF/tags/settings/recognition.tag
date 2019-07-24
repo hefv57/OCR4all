@@ -60,7 +60,6 @@
                     </td>
                  </tr>
 
-			<c:if test='${(not empty processingMode) && (processingMode == "Pagexml")}'>
 				<tr>
 					<td><p>Estimate skew angle for every region without one</p></td>
 					<td>
@@ -88,7 +87,6 @@
 						</div>
 					</td>
 				</tr>
-			</c:if>
             </tbody>
         </table>
     </c:when>
