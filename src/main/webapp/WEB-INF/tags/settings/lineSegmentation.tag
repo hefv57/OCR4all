@@ -23,15 +23,6 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><p>Precision of the polygon surrounding the textline. (Smaller values result in better precision)</p></td>
-                    <td>
-                         <div class="input-field">
-                             <input id="lineSegmentation--tolerance" data-setting="--tolerance" type="number" step="0.001" />
-                             <label for="lineSegmentation--tolerance" data-type="float" data-error="Has to be float">Default: 1.0</label>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
                     <td><p>Number of parallel threads for program execution</p></td>
                     <td>
                          <div class="input-field">
@@ -45,5 +36,45 @@
     </c:when>
     <%-- Advanced settings --%>
     <c:when test="${settingsType == 'advanced'}">
+        <table class="compact">
+            <tbody>
+                <tr>
+                    <td><p>Smearing resistance in X direction for the algorithm calculating the textline polygon wrapping all contents.</p></td>
+                    <td>
+                         <div class="input-field">
+                             <input id="lineSegmentation--smearX" data-setting="--smearX" type="number" step="0.001" />
+                             <label for="lineSegmentation--smearX" data-type="float" data-error="Has to be float">Default: 2.0</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><p>Smearing resistance in Y direction for the algorithm calculating the textline polygon wrapping all contents.</p></td>
+                    <td>
+                         <div class="input-field">
+                             <input id="lineSegmentation--smearY" data-setting="--smearY" type="number" step="0.001" />
+                             <label for="lineSegmentation--smearY" data-type="float" data-error="Has to be float">Default: 1.0</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><p>Growth in X direction for every iteration of the Textline polygon finding. Will speed up the algorithm at the cost of precision.</p></td>
+                    <td>
+                         <div class="input-field">
+                             <input id="lineSegmentation--growthX" data-setting="--growthX" type="number" step="0.001" />
+                             <label for="lineSegmentation--growthX" data-type="float" data-error="Has to be float">Default: 1.1</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><p>Growth in Y direction for every iteration of the Textline polygon finding. Will speed up the algorithm at the cost of precision.</p></td>
+                    <td>
+                         <div class="input-field">
+                             <input id="lineSegmentation--growthY" data-setting="--growthY" type="number" step="0.001" />
+                             <label for="lineSegmentation--growthY" data-type="float" data-error="Has to be float">Default: 1.1</label>
+                        </div>
+                    </td>
+                </tr>
+			</tbody>
+		</table>
     </c:when>
 </c:choose>
