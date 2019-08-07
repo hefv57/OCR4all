@@ -69,15 +69,26 @@ function validateCheckpoints() {
     }
 };
 
-function initializeRecModelSelect(multiSelectId) {
-    $.get( 'ajax/recognition/listModels' )
-    .done(function( data ) {
-        $.each(data, function(key, value) {
-            var optionEl = $("<option></option>").attr("value", value).text(key);
-            $(multiSelectId).append(optionEl);
-        });
-        $(multiSelectId).multiSelect(recModelSelectOptions);
-    });
+function initializeRecModelSelect(multiSelectId, engine) {
+    if (engine === undefined) {
+        $.get('ajax/recognition/listModels')
+            .done(function (data) {
+                $.each(data, function (key, value) {
+                    var optionEl = $("<option></option>").attr("value", value).text(key);
+                    $(multiSelectId).append(optionEl);
+                });
+                $(multiSelectId).multiSelect(recModelSelectOptions);
+            });
+    } else {
+        $.get('ajax/recognition/tesseract/listModels')
+            .done(function (data) {
+                $.each(data, function (key, value) {
+                    var optionEl = $("<option></option>").attr("value", value).text(key);
+                    $(multiSelectId).append(optionEl);
+                });
+                $(multiSelectId).multiSelect(recModelSelectOptions);
+            });
+    }
 };
 
 $(document).ready(function() {

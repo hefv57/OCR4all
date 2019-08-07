@@ -64,6 +64,11 @@
                     // Execute recognition process
                     executeProcess(ajaxParams);
                 });
+                $('#--engine-tesseract').change(function () {
+                    if ($(this).prop('checked', true)){
+                        initializeRecModelSelect('#recognition--checkpoint', 'tesseract');
+                    }
+                });
             });
         </script>
     </t:head>

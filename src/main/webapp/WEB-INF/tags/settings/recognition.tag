@@ -9,12 +9,10 @@
                 <tr>
                     <td><p>Recognition engine</p></td>
                     <td class="input-field">
-                        <form>
                         <input name="--engine" type="radio" class="with-gap" id="--engine-calamari"/>
                         <label for="--engine-calamari">Calamari</label>
                         <input name="--engine" type="radio" class="with-gap" data-setting="--engine-tesseract" id="--engine-tesseract"/>
                         <label for="--engine-tesseract">Tesseract</label>
-                        </form>
                     </td>
                 </tr>
                 <tr>
@@ -26,6 +24,7 @@
                         </div>
                     </td>
                 </tr>
+
                 <tr>
                     <td><p>Line recognition models</p></td>
                     <td>
