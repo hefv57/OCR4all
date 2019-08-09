@@ -6,7 +6,7 @@
     <c:when test="${settingsType == 'general'}">
         <table class="compact">
             <tbody>
-				 <tr>
+				<tr>
                     <td>
                         <p>
                             Maximum # whitespace column separators 
