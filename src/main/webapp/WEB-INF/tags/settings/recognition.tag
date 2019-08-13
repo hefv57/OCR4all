@@ -8,7 +8,7 @@
             <tbody>
                 <tr>
                     <td><p>Recognition engine</p></td>
-                    <td class="input-field">
+                    <td>
                         <input name="--engine" type="radio" class="with-gap" id="--engine-calamari"/>
                         <label for="--engine-calamari">Calamari</label>
                         <input name="--engine" type="radio" class="with-gap" data-setting="--engine-tesseract" id="--engine-tesseract"/>

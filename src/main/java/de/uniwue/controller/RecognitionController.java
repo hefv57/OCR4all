@@ -10,10 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import de.uniwue.helper.RecognitionHelper;
@@ -211,10 +208,10 @@ public class RecognitionController {
      * @param session Session of the user
      * @param response Response to the request
      */
-    @RequestMapping(value ="/ajax/recognition/listModels" , method = RequestMethod.GET)
-    public @ResponseBody TreeMap<String, String> listModels(HttpSession session, HttpServletResponse response) {
+    @RequestMapping(value ="/ajax/recognition/listModels/{engine}" , method = RequestMethod.GET)
+    public @ResponseBody TreeMap<String, String> listModels(HttpSession session, HttpServletResponse response, @PathVariable("engine") String engine) {
         try {
-            return RecognitionHelper.listModels();
+            return RecognitionHelper.listModels(engine);
         } catch (IOException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             e.printStackTrace();

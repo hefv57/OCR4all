@@ -495,7 +495,7 @@ public class RecognitionHelper {
      * @return Map of models (key = modelName | value = path)
      * @throws IOException 
      */
-    public static TreeMap<String, String> listModels() throws IOException{
+    public static TreeMap<String, String> listModels(String engine) throws IOException{
         TreeMap<String, String> models = new TreeMap<String, String>();
 
         File modelsDir = new File(ProjectConfiguration.PROJ_MODEL_DIR);
@@ -503,22 +503,37 @@ public class RecognitionHelper {
             return models;
 
         // Add all models to map (follow symbolic links on the filesystem due to Docker container)
-        Files.walk(Paths.get(ProjectConfiguration.PROJ_MODEL_DIR), FileVisitOption.FOLLOW_LINKS)
-        .map(Path::toFile)
-        .filter(fileEntry -> fileEntry.getName().endsWith(ProjectConfiguration.MODEL_EXT))
-        .forEach(
-            fileEntry -> {
-                // Remove OS path and model extension from display string (only display significant information)
-                String modelName = fileEntry.getAbsolutePath();
-                modelName = modelName.replace(ProjectConfiguration.PROJ_MODEL_DEFAULT_DIR, "");
-                modelName = modelName.replace(ProjectConfiguration.PROJ_MODEL_CUSTOM_DIR, "");
-                modelName = modelName.replace(ProjectConfiguration.MODEL_EXT, "");
+        if (engine.equals("calamari"))
+            Files.walk(Paths.get(ProjectConfiguration.PROJ_MODEL_DIR), FileVisitOption.FOLLOW_LINKS)
+            .map(Path::toFile)
+            .filter(fileEntry -> fileEntry.getName().endsWith(ProjectConfiguration.MODEL_EXT))
+            .forEach(
+                fileEntry -> {
+                    // Remove OS path and model extension from display string (only display significant information)
+                    String modelName = fileEntry.getAbsolutePath();
+                    modelName = modelName.replace(ProjectConfiguration.PROJ_MODEL_DEFAULT_DIR, "");
+                    modelName = modelName.replace(ProjectConfiguration.PROJ_MODEL_CUSTOM_DIR, "");
+                    modelName = modelName.replace(ProjectConfiguration.MODEL_EXT, "");
 
-                models.put(modelName, fileEntry.getAbsolutePath());
+                    models.put(modelName, fileEntry.getAbsolutePath());
         });
+        else
+            Files.walk(Paths.get(ProjectConfiguration.PROJ_MODEL_DIR), FileVisitOption.FOLLOW_LINKS)
+                    .map(Path::toFile)
+                    .filter(fileEntry -> fileEntry.getName().endsWith(ProjectConfiguration.TESS_EXT))
+                    .forEach(
+                            fileEntry -> {
+                                // Remove OS path and model extension from display string (only display significant information)
+                                String modelName = fileEntry.getAbsolutePath();
+                                modelName = modelName.replace(ProjectConfiguration.PROJ_MODEL_DEFAULT_DIR, "");
+                                modelName = modelName.replace(ProjectConfiguration.PROJ_MODEL_CUSTOM_DIR, "");
+                                modelName = modelName.replace(ProjectConfiguration.TESS_EXT, "");
 
+                                models.put(modelName, fileEntry.getAbsolutePath());
+                            });
         return models;
     }
+
 
     /**
      * Determines conflicts with the process

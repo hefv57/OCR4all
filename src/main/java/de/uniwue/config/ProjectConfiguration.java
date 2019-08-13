@@ -97,6 +97,10 @@ public final class ProjectConfiguration {
      */
     public static final String MODEL_EXT = ".ckpt.json";
     /**
+     * Tesseract Model extension
+     */
+    public static final String TESS_EXT = ".traineddata";
+    /**
      * Returns the file extension of the given image type
      *
      * @param imageType Type of the image

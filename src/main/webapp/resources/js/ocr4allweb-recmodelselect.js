@@ -70,8 +70,10 @@ function validateCheckpoints() {
 };
 
 function initializeRecModelSelect(multiSelectId, engine) {
-    if (engine === undefined) {
-        $.get('ajax/recognition/listModels')
+    $(".ms-list").empty();
+    $("#recognition--checkpoint").empty();
+    if (engine == "tesseract") {
+        $.get('ajax/recognition/listModels/tesseract')
             .done(function (data) {
                 $.each(data, function (key, value) {
                     var optionEl = $("<option></option>").attr("value", value).text(key);
@@ -80,7 +82,7 @@ function initializeRecModelSelect(multiSelectId, engine) {
                 $(multiSelectId).multiSelect(recModelSelectOptions);
             });
     } else {
-        $.get('ajax/recognition/tesseract/listModels')
+        $.get('ajax/recognition/listModels/calamari')
             .done(function (data) {
                 $.each(data, function (key, value) {
                     var optionEl = $("<option></option>").attr("value", value).text(key);

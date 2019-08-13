@@ -8,7 +8,7 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 // Initialize recognition model selection
-                initializeRecModelSelect('#recognition--checkpoint');
+                initializeRecModelSelect('#recognition--checkpoint', 'calamari');
                 // Load image list
                 $.get( "ajax/recognition/getValidPageIds")
                 .done(function( data ) {
@@ -67,6 +67,13 @@
                 $('#--engine-tesseract').change(function () {
                     if ($(this).prop('checked', true)){
                         initializeRecModelSelect('#recognition--checkpoint', 'tesseract');
+                        $("#recognition--checkpoint").multiSelect('refresh');
+                    }
+                });
+                $('#--engine-calamari').change(function () {
+                    if ($(this).prop('checked', true)) {
+                        initializeRecModelSelect('#recognition--checkpoint', 'calamari');
+                        $("#recognition--checkpoint").multiSelect('refresh');
                     }
                 });
             });
