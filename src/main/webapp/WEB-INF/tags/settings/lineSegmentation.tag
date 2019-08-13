@@ -11,13 +11,13 @@
                         <p>
                             Image processing scale 
                             <br />
-                            <span class="userWarning">Will be estimated from the image if left empty</span>
+                            <span class="userWarning">Will be estimated from the image if left empty or negative</span>
                         </p>
                         
                     </td>
                     <td>
                         <div class="input-field">
-                            <input id="lineSegmentation--scale" data-setting="--scale" type="number" />
+                            <input id="lineSegmentation--scale" data-setting="--scale" type="number" min="-1"/>
                             <label for="lineSegmentation--scale" data-type="float" data-error="Has to be a float">Default: -1</label>
                         </div>
                     </td>
@@ -26,7 +26,7 @@
                     <td><p>Number of parallel threads for program execution</p></td>
                     <td>
                          <div class="input-field">
-                             <input id="lineSegmentation--parallel" data-setting="--parallel" type="number" step="1" />
+                             <input id="lineSegmentation--parallel" data-setting="--parallel" type="number" step="1" min="0"/>
                              <label for="lineSegmentation--parallel" data-type="int" data-error="Has to be integer">Default: 1 | Current: Available threats (Int value)</label>
                         </div>
                     </td>
@@ -42,7 +42,7 @@
                     <td><p>Smearing resistance in X direction for the algorithm calculating the textline polygon wrapping all contents.</p></td>
                     <td>
                          <div class="input-field">
-                             <input id="lineSegmentation--smearX" data-setting="--smearX" type="number" step="0.001" />
+                             <input id="lineSegmentation--smearX" data-setting="--smearX" type="number" step="0.001" min="0"/>
                              <label for="lineSegmentation--smearX" data-type="float" data-error="Has to be float">Default: 2.0</label>
                         </div>
                     </td>
@@ -51,7 +51,7 @@
                     <td><p>Smearing resistance in Y direction for the algorithm calculating the textline polygon wrapping all contents.</p></td>
                     <td>
                          <div class="input-field">
-                             <input id="lineSegmentation--smearY" data-setting="--smearY" type="number" step="0.001" />
+                             <input id="lineSegmentation--smearY" data-setting="--smearY" type="number" step="0.001" min="0"/>
                              <label for="lineSegmentation--smearY" data-type="float" data-error="Has to be float">Default: 1.0</label>
                         </div>
                     </td>
@@ -60,7 +60,7 @@
                     <td><p>Growth in X direction for every iteration of the Textline polygon finding. Will speed up the algorithm at the cost of precision.</p></td>
                     <td>
                          <div class="input-field">
-                             <input id="lineSegmentation--growthX" data-setting="--growthX" type="number" step="0.001" />
+                             <input id="lineSegmentation--growthX" data-setting="--growthX" type="number" step="0.001" min="0"/>
                              <label for="lineSegmentation--growthX" data-type="float" data-error="Has to be float">Default: 1.1</label>
                         </div>
                     </td>
@@ -69,8 +69,17 @@
                     <td><p>Growth in Y direction for every iteration of the Textline polygon finding. Will speed up the algorithm at the cost of precision.</p></td>
                     <td>
                          <div class="input-field">
-                             <input id="lineSegmentation--growthY" data-setting="--growthY" type="number" step="0.001" />
+                             <input id="lineSegmentation--growthY" data-setting="--growthY" type="number" step="0.001" min="0"/>
                              <label for="lineSegmentation--growthY" data-type="float" data-error="Has to be float">Default: 1.1</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><p>Fail save prevent infinite loops when combining to connected components (e.g characters) to precise textlines. Will connect remaining contours with lines.</p></td>
+                    <td>
+                         <div class="input-field">
+                             <input id="lineSegmentation--fail_save" data-setting="--fail_save" type="number" step="1" min="0"/>
+                             <label for="lineSegmentation--fail_save" data-type="int" data-error="Has to be integer">Default: 100</label>
                         </div>
                     </td>
                 </tr>
