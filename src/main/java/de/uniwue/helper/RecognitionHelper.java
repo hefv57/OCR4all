@@ -203,9 +203,10 @@ public class RecognitionHelper {
      *
      * @param pageIds Identifiers of the pages (e.g 0002,0003)
      * @param cmdArgs Command line arguments for "calamary-predict"
+     * @param useAabbyyXml determines if calamari will use aabbyyXML schema as dataset
      * @throws IOException
      */
-    public void execute(List<String> pageIds, List<String> cmdArgs) throws IOException {
+    public void execute(List<String> pageIds, List<String> cmdArgs, boolean useAabbyyXml) throws IOException {
         RecognitionRunning = true;
         progress = 0;
         int index;
@@ -216,7 +217,8 @@ public class RecognitionHelper {
                     throw new IOException("Model does not exist under the specified path");
             }
         }
-
+        String test = "0001";
+        pageIds.add(test);
 		// Reset recognition data
 		deleteOldFiles(pageIds);
 		initialize(pageIds);
@@ -255,7 +257,11 @@ public class RecognitionHelper {
         command.add("--no_progress_bars");
 
         command.add("--dataset");
-        command.add("PAGEXML");
+        if(useAabbyyXml) {
+            command.add("ABBYY");
+        } else{
+            command.add("PAGEXML");
+        }
         // Set output extension to input extension in order to overwrite the original file
         // (default would've been .pred.xml)
         command.add("--extension");

@@ -35,10 +35,11 @@
                     }
 
                     var selectedPages = getSelectedPages();
+                    /* debug
                     if( selectedPages.length === 0 ) {
                         $('#modal_errorhandling').modal('open');
                         return;
-                    }
+                    }*/
                     $.post( "ajax/recognition/exists", { "pageIds[]" : selectedPages } )
                     .done(function( data ){
                         if(data === false){

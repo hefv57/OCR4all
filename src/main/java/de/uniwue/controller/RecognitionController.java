@@ -68,8 +68,8 @@ public class RecognitionController {
     /**
      * Response to the request to execute the recognition script
      *
-     * @param pageIds[] Identifiers of the pages (e.g 0002,0003)
-     * @param cmdArgs[] Command line arguments for the line segmentation process
+     * @param pageIds Identifiers of the pages (e.g 0002,0003)
+     * @param cmdArgs Command line arguments for the line segmentation process
      * @param session Session of the user
      * @param response Response to the request
      * @param inProcessFlow Indicates if the process is executed within the ProcessFlow
@@ -94,7 +94,9 @@ public class RecognitionController {
 
         GenericController.addToProcessList(session, "recognition");
         try {
-            recognitionHelper.execute(Arrays.asList(pageIds), cmdArgList);
+
+            //TODO
+            recognitionHelper.execute(Arrays.asList(pageIds), cmdArgList, true);
         } catch (IOException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             recognitionHelper.resetProgress();
@@ -187,7 +189,7 @@ public class RecognitionController {
     /**
      * Response to the request to check if old process related files exist
      *
-     * @param pageIds[] Identifiers of the pages (e.g 0002,0003)
+     * @param pageIds Identifiers of the pages (e.g 0002,0003)
      * @param session Session of the user
      * @param response Response to the request
      * @return Information if files exist
