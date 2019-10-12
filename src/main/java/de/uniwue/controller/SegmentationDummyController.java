@@ -80,8 +80,12 @@ public class SegmentationDummyController {
     public @ResponseBody void execute(
                @RequestParam("pageIds[]") String[] pageIds,
                @RequestParam("imageType") String segmentationImageType,
+               @RequestParam(value="findImages", required=false, defaultValue="false") boolean findImages,
+               @RequestParam(value="minImageSize", required=false, defaultValue="3000") float minImageSize,
+               @RequestParam(value="imageDilationX", required=false, defaultValue="1") int imageDilationX,
+               @RequestParam(value="imageDilationY", required=false, defaultValue="1") int imageDilationY,
                HttpSession session, HttpServletResponse response,
-               @RequestParam(value = "inProcessFlow", required = false, defaultValue = "false") boolean inProcessFlow
+               @RequestParam(value="inProcessFlow", required=false, defaultValue="false") boolean inProcessFlow
            ) {
         SegmentationDummyHelper segmentationDummyHelper = provideHelper(session, response);
         if (segmentationDummyHelper == null)
@@ -93,7 +97,8 @@ public class SegmentationDummyController {
 
         GenericController.addToProcessList(session, "segmentationDummy");
         try {
-            segmentationDummyHelper.execute(Arrays.asList(pageIds), segmentationImageType);
+        	segmentationDummyHelper.execute(Arrays.asList(pageIds), segmentationImageType, findImages,
+        									minImageSize, imageDilationX, imageDilationY);
         } catch (IOException | ParserConfigurationException | TransformerException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             segmentationDummyHelper.resetProgress();

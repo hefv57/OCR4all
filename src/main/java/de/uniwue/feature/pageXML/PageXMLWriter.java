@@ -2,6 +2,7 @@ package de.uniwue.feature.pageXML;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -15,6 +16,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
+import org.opencv.core.Rect;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -64,10 +66,12 @@ public class PageXMLWriter {
      * @param image
      * @param imageFilename
      * @param pageXMLVersion
+     * @param imageRegions
      * @return pageXML document or null if parse error
      * @throws ParserConfigurationException 
      */
-    public static Document getPageXML(final Mat image, String imageFilename, String pageXMLVersion) throws ParserConfigurationException {
+    public static Document getPageXML(final Mat image, String imageFilename, String pageXMLVersion,
+    									Collection<Rect> imageRegions) throws ParserConfigurationException {
         if (!pageXMLVersion.equals("2017-07-15") && !pageXMLVersion.equals("2010-03-19")) {
             pageXMLVersion = "2010-03-19";
         }
@@ -114,12 +118,13 @@ public class PageXMLWriter {
         pageElement.setAttribute("imageHeight", "" + image.height());
         rootElement.appendChild(pageElement);
 
+
         //create and add a single paragraph region covering the entire page
         Element regionElement = document.createElement("TextRegion");
         regionElement.setAttribute("type", "paragraph");
         regionElement.setAttribute("id", "r0");
         Element coordsElement = document.createElement("Coords");
-
+		
         //tl, tr, br, bl
         Point[] points = new Point[4];
         points[0] = new Point(1, 1);
@@ -139,6 +144,30 @@ public class PageXMLWriter {
         regionElement.appendChild(coordsElement);
         pageElement.appendChild(regionElement);
 
+        // Find images
+		int id = 1;
+		for (final Rect rect : imageRegions) {
+			Point[] ipoints = new Point[4];
+			ipoints[0] = rect.tl();
+			ipoints[1] = new Point(rect.br().x, rect.y);
+			ipoints[2] = rect.br();
+			ipoints[3] = new Point(rect.x, rect.br().y);
+
+			Element imageElement = document.createElement("ImageRegion");
+			regionElement.setAttribute("id", "r"+(id++));
+			Element imageCoordsElement = document.createElement("Coords");
+			switch (pageXMLVersion) {
+			case "2017-07-15":
+				addPoints2017(document, imageCoordsElement, ipoints);
+				break;
+			case "2010-03-19":
+			default:
+				addPoints2010(document, imageCoordsElement, ipoints);
+				break;
+			}
+			imageElement.appendChild(imageCoordsElement);
+			pageElement.appendChild(imageElement);
+        }
         return document;
     }
 

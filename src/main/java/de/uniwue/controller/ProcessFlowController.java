@@ -144,6 +144,8 @@ public class ProcessFlowController {
      */
     public void doSegmentationDummy(
                 String[] pageIds, Object segmentationImageType,
+				boolean findImages, float minImageSize,
+				int imageDilationX, int imageDilationY,
                 HttpSession session, HttpServletResponse response
             ) {
         if (pageIds.length == 0) {
@@ -151,7 +153,8 @@ public class ProcessFlowController {
             return;
         }
 
-        new SegmentationDummyController().execute(pageIds, (String)segmentationImageType, session, response, true);
+        new SegmentationDummyController().execute(pageIds, (String)segmentationImageType, 
+        				findImages, minImageSize, imageDilationX, imageDilationY, session, response, true);
     }
 
     /**
@@ -308,7 +311,8 @@ public class ProcessFlowController {
             session.setAttribute("currentProcess", "segmentationDummy");
             pageIds = processFlowHelper.getValidPageIds(pageIds, "preprocessing");
             Map<String, Object> settings = processSettings.get("segmentationDummy");
-            doSegmentationDummy(pageIds, settings.get("imageType"), session, response);
+            // TODO as settings
+            doSegmentationDummy(pageIds, settings.get("imageType"), true, 3000, 1, 1, session, response);
             if (needsExit(session, response))
                 return;
         }
